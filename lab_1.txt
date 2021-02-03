@@ -1,0 +1,30 @@
+1. Головним ключем буде колонка id. Обов'язкові поля для введення: Код, Назва. Значення за замовчуванням
+має поле тираж. Поля, які мають ОДЗ -  ціна та сторінки. Проіндексувати потрібно порядковий номер.
+
+2. a) DROP DATABASE test_database
+b) CREATE DATABASE test_database
+c) CREATE TABLE table1
+(
+	id INT(20) NOT NULL AUTO_INCREMENT,
+	novelty TINYINT(1),
+	code INT(20) NOT NULL,
+	title VARCHAR(255) NOT NULL,
+	price INT(20),
+	publisher VARCHAR(50),
+	pages INT(20),
+	format VARCHAR(20),
+	date DATE,
+	circulation INT(20) DEFAULT 5000,
+	theme VARCHAR(50),
+	category VARCHAR(50),
+	PRIMARY KEY (id)
+)
+e) CREATE INDEX idx_title ON table1(title)
+d) INSERT INTO table1 (novelty, code, title, price, publisher, pages, format, date, theme, category) 
+	VALUES (1, 1521, 'ahghaskjaks', 45, 'a1b2bsfasf', 400, 16x28/100, '2020-02-02', 'jaskfjaskf', 'asfasfasf')
+
+3. a) ALTER TABLE table1 ADD Author VARCHAR(15)
+b) ALTER TABLE table1 MODIFY COLUMN `Author` VARCHAR(20)
+c) ALTER TABLE table1 DROP COLUMN `Author`
+d) CREATE UNIQUE INDEX idx_title ON table1(title)
+e) DROP INDEX idx_title ON table1
