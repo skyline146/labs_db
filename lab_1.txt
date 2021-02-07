@@ -21,7 +21,7 @@ c) CREATE TABLE table1
 )
 e) CREATE INDEX idx_title ON table1(title)
 d) INSERT INTO table1 (novelty, code, title, price, publisher, pages, format, date, theme, category) 
-	VALUES (1, 1521, 'ahghaskjaks', 45, 'a1b2bsfasf', 400, 16x28/100, '2020-02-02', 'jaskfjaskf', 'asfasfasf')
+	VALUES (1, 1521, 'ahghaskjaks', 45, 'a1b2bsfasf', 400, '16x28/100', '2020-02-02', 'jaskfjaskf', 'asfasfasf')
 
 3. a) ALTER TABLE table1 ADD Author VARCHAR(15)
 b) ALTER TABLE table1 MODIFY COLUMN `Author` VARCHAR(20)
