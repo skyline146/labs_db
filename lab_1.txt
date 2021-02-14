@@ -19,12 +19,13 @@ c) CREATE TABLE table1
 	category VARCHAR(50),
 	PRIMARY KEY (id)
 )
-e) CREATE INDEX idx_title ON table1(title)
-d) INSERT INTO table1 (novelty, code, title, price, publisher, pages, format, date, theme, category) 
+d) CREATE INDEX idx_title ON table1(title)
+e) INSERT INTO table1 (novelty, code, title, price, publisher, pages, format, date, theme, category)
 	VALUES (1, 1521, 'ahghaskjaks', 45, 'a1b2bsfasf', 400, '16x28/100', '2020-02-02', 'jaskfjaskf', 'asfasfasf')
 
 3. a) ALTER TABLE table1 ADD Author VARCHAR(15)
 b) ALTER TABLE table1 MODIFY COLUMN `Author` VARCHAR(20)
 c) ALTER TABLE table1 DROP COLUMN `Author`
-d) CREATE UNIQUE INDEX idx_title ON table1(title)
+d) SELECT * FROM table1 ORDER BY title ASC, SELECT * FROM table1 ORDER BY title DESC
+ALTER TABLE table1 DROP INDEX idx_title, ADD UNIQUE idx_title (title)
 e) DROP INDEX idx_title ON table1
