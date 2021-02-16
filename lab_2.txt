@@ -1,0 +1,39 @@
+1. SELECT `id`, `code`, `novelty`, `title`, `price`, `pages` FROM `table1`;
+
+2. SELECT * FROM `table1`
+
+3. SELECT `code`, `title`, `novelty`, `pages`, `price`, `id` FROM `table1`
+
+4. SELECT * FROM `table1` WHERE id <= 10
+
+5. 
+
+6. SELECT DISTINCT `code` FROM `table1`
+
+7. SELECT * FROM `table1` WHERE novelty = 1
+
+8. SELECT * FROM `table1` WHERE price > 20 AND price < 30 AND novelty = 1
+
+9. SELECT * FROM `table1` WHERE price < 20 OR price > 30 AND novelty = 1
+
+10. SELECT * FROM `table1` WHERE price > 20 AND price < 30 AND pages > 300 AND pages < 400
+
+11. SELECT * FROM `table1` WHERE publishdate >= '2000-01-01' AND publishdate <= '2000-02-29'
+
+12. SELECT * FROM `table1` WHERE code = 5110 OR code = 5141 OR code = 4985 OR code = 4241
+
+13. SELECT * FROM table1 WHERE YEAR(publishdate) = 1999 OR YEAR(publishdate) = 2001 OR YEAR(publishdate) = 2003 OR YEAR(publishdate) = 2005
+
+14. SELECT * FROM `table1` WHERE title LIKE 'А%' AND title LIKE 'К%'
+
+15. SELECT * FROM `table1` WHERE title LIKE 'АПП%' AND YEAR(publishdate) = 2000 AND price < 20
+
+16. SELECT * FROM `table1` WHERE title LIKE 'АПП%' AND title LIKE '%е' AND MONTH(publishdate) >= 1 AND MONTH(publishdate) <= 6
+
+17. SELECT * FROM `table1` WHERE title LIKE '%microsoft%' AND title NOT LIKE '%windows%'
+
+18. SELECT * FROM table1 WHERE title REGEXP '[0-9]'
+
+19. SELECT * FROM `table1` WHERE title REGEXP '([0-9](.*)){3,}'
+
+20. SELECT * FROM `table1` WHERE title REGEXP '([0-9](.*)){5}'
