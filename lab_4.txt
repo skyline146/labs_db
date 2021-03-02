@@ -1,0 +1,39 @@
+1. SELECT COUNT(title), SUM(price), AVG(price), MIN(price), MAX(price) from table1
+
+2. SELECT COUNT(title) from table1 WHERE price IS NOT NULL
+
+3. SELECT COUNT(title), SUM(price), AVG(price), MIN(price), MAX(price) from table1 WHERE novelty = 1 / SELECT COUNT(title), SUM(price), AVG(price), MIN(price), MAX(price) from table1 WHERE novelty = 0
+
+4. SELECT COUNT(title), SUM(price), AVG(price), MIN(price), MAX(price) from table1 GROUP BY year(publishdate)
+
+5. SELECT COUNT(title), SUM(price), AVG(price), MIN(price), MAX(price) from table1 WHERE price < 10 OR price > 20 GROUP BY year(publishdate)
+
+6. SELECT COUNT(title) as count, SUM(price), AVG(price), MIN(price), MAX(price), year(publishdate) from table1 GROUP BY year(publishdate) ORDER BY count DESC
+
+7. SELECT COUNT(code), COUNT(DISTINCT code) from table1
+
+8. SELECT COUNT(title), SUM(price), LEFT(title, 1) FROM table1 GROUP BY LEFT(title, 1)
+
+9. SELECT COUNT(title), SUM(price), LEFT(title, 1) FROM table1 WHERE title NOT REGEXP '^[a-z]' AND title NOT REGEXP '^[A-Z]' AND title NOT REGEXP '^[0-9]' GROUP BY LEFT(title, 1)
+
+10. SELECT COUNT(title), SUM(price), LEFT(title, 1) FROM table1 WHERE title NOT REGEXP '^[a-z]' AND title NOT REGEXP '^[A-Z]' AND title NOT REGEXP '^[0-9]' AND year(publishdate) > 2000 GROUP BY LEFT(title, 1)
+
+11. SELECT COUNT(title), SUM(price), LEFT(title, 1) FROM table1 WHERE title NOT REGEXP '^[a-z]' AND title NOT REGEXP '^[A-Z]' AND title NOT REGEXP '^[0-9]' AND year(publishdate) > 2000 GROUP BY LEFT(title, 1) DESC
+
+12. SELECT COUNT(title), SUM(price), AVG(price), MIN(price), MAX(price) from table1 GROUP BY year(publishdate), month(publishdate)
+
+13. SELECT COUNT(title), SUM(price), AVG(price), MIN(price), MAX(price) from table1 WHERE publishdate IS NOT NULL GROUP BY year(publishdate), month(publishdate)
+
+14. SELECT COUNT(title), SUM(price), AVG(price), MIN(price), MAX(price) from table1 GROUP BY year(publishdate), month(publishdate) ORDER BY year(publishdate) DESC, month(publishdate) ASC
+
+15. SELECT novelty, SUM(price), SUM((price*28)) as sum_hrn, SUM((price*70)) as sum_rub, SUM((price*0.8)) as sum_eur FROM table1 GROUP BY novelty
+
+16. SELECT novelty, round(SUM(price)), round(SUM((price*28))) as sum_hrn, round(SUM((price*70))) as sum_rub, round(SUM((price*0.8))) as sum_eur FROM table1 GROUP BY novelty
+
+17. SELECT publisher, COUNT(title), SUM(price), AVG(price), MIN(price), MAX(price) from table1 GROUP BY publisher
+
+18. SELECT publisher, theme, COUNT(title), SUM(price), AVG(price), MIN(price), MAX(price) from table1 GROUP BY theme, publisher ORDER BY publisher
+
+19. SELECT publisher, theme, category, COUNT(title), SUM(price), AVG(price), MIN(price), MAX(price) from table1 GROUP BY category, theme, publisher ORDER BY publisher, theme, category
+
+20. SELECT publisher FROM table1 WHERE round((price/pages)) > 0.1
