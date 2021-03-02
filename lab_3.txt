@@ -4,25 +4,25 @@
 
 3. SELECT * FROM table1 WHERE publishdate IS NULL
 
-4. SELECT * FROM table1 WHERE PERIOD_DIFF(CURRENT_DATE(), publishdate) > 12
+4. SELECT * FROM table1 WHERE PERIOD_DIFF(CURRENT_DATE(), publishdate) <= 12
 
 5. SELECT * FROM table1 WHERE `novelty` = 1 ORDER BY price
 
 6. SELECT * FROM table1 WHERE pages > 300 AND pages <= 400 ORDER BY title DESC
 
-7. SELECT * FROM table1 WHERE price > 20 AND price <= 40 ORDER BY publishdate DESC
+7. SELECT * FROM table1 WHERE price >= 20 AND price <= 40 ORDER BY publishdate DESC
 
 8. SELECT * FROM `table1` ORDER BY title DESC, price DESC
 
 9. SELECT * FROM `table1` WHERE (price/pages) < 0.1
 
-10.  SELECT length(title), upper(substring(title, 1, 20)) FROM table1
+10. SELECT length(title), upper(substring(title, 1, 20)) FROM table1
 
 11. SELECT concat(concat(substring(title, 1, 10), '...'), reverse(substring(reverse(title), 1, 10))) FROM table1
 
 12. SELECT title, publishdate, day(publishdate), month(publishdate), year(publishdate) FROM table1
 
-13. SELECT title, publishdate, date_format(publishdate, '%d/%m/%y') FROM table1
+13. SELECT title, publishdate, date_format(publishdate, '%d/%m/%Y') FROM table1
 
 14. SELECT code, price, (price*28) as hrn, (price*70) as rub, (price*0.8) as eur FROM table1
 
