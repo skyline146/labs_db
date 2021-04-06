@@ -1,0 +1,222 @@
+1.
+DELIMITER $$
+
+CREATE PROCEDURE Procedure1()
+BEGIN
+  SELECT title, price, table_publisher.publisher as publisher, table_format.format as format
+  FROM table_book
+  
+  JOIN table_publisher
+  ON table_book.publisher = table_publisher.id
+
+  JOIN table_format
+  ON table_book.format = table_format.id;
+END $$
+
+DELIMITER ;
+
+CALL Procedure1;
+
+2.
+DELIMITER $$
+
+CREATE PROCEDURE Procedure2_1()
+BEGIN
+  SELECT table_theme.theme as theme, table_category.category as category, title, table_publisher.publisher as publisher 
+  FROM table_book 
+  JOIN table_publisher ON table_book.publisher = table_publisher.id 
+  JOIN table_category ON table_book.category = table_category.id 
+  JOIN table_theme on table_book.theme = table_theme.id
+  ORDER BY table_theme.theme, table_category.category;
+END $$
+
+DELIMITER ;
+
+CALL Procedure2_1;
+
+3. 
+DELIMITER $$
+
+CREATE PROCEDURE Procedure3()
+BEGIN
+  SELECT title, publishdate, table_publisher.publisher as publisher 
+  FROM table_book 
+  JOIN table_publisher ON table_book.publisher = table_publisher.id 
+  WHERE year(publishdate) >= 2000 AND table_publisher.publisher LIKE 'BHV%';
+END $$
+
+DELIMITER ;
+
+CALL Procedure3;
+
+4. 
+DELIMITER $$
+
+CREATE PROCEDURE Procedure4()
+BEGIN
+  SELECT sum(pages), table_category.category as category
+	FROM table_book
+	JOIN table_category on table_book.category = table_category.id 
+	GROUP BY table_category.category
+	ORDER BY sum(pages) DESC;
+END $$
+
+DELIMITER ;
+
+CALL Procedure4;
+
+5. 
+DELIMITER $$
+
+CREATE PROCEDURE Procedure5_2(theme_id int, category_id int)
+BEGIN
+  SELECT AVG(price)
+  FROM table_book
+  WHERE table_book.theme = theme_id AND table_book.category = category_id;
+END $$
+DELIMITER ;
+
+CALL Procedure5_2(1, 6);
+
+6. 
+DELIMITER $$
+
+CREATE PROCEDURE Procedure6()
+BEGIN
+ SELECT table_novelty.novelty as novelty, code, title, price, table_publisher.publisher as publisher, pages, table_format.format as format, publishdate, circulation, table_theme.theme as theme, table_category.category as category
+ FROM table_book
+ JOIN table_theme ON table_book.theme = table_theme.id
+ JOIN table_category ON table_book.category = table_category.id
+ JOIN table_publisher ON table_book.publisher = table_publisher.id
+ JOIN table_novelty ON table_book.novelty = table_novelty.id
+ JOIN table_format ON table_book.format = table_format.id;
+END $$
+DELIMITER ;
+
+CALL Procedure6;
+
+7.
+DELIMITER $$
+
+CREATE PROCEDURE Procedure7()
+BEGIN
+ SELECT b1.title as title1, b1.pages as pages1, b2.title as title2, b2.pages as pages2
+ FROM table_book b1
+ JOIN table_book b2
+ WHERE b1.pages = b2.pages AND b1.id < b2.id;
+END $$
+DELIMITER ;
+
+CALL Procedure7;
+
+8.
+DELIMITER $$
+
+CREATE PROCEDURE Procedure8()
+BEGIN
+ SELECT b1.title as title1, b1.price as price1, b2.title as title2, b2.price as price2, b3.title as title3, b3.price as price3
+ FROM table_book b1
+ JOIN table_book b2
+ JOIN table_book b3
+ WHERE b1.price = b2.price AND b1.price = b3.price AND b1.id != b2.id AND b1.id != b3.id AND b2.id != b3.id;
+END $$
+DELIMITER ;
+
+CALL Procedure8;
+
+9.
+DELIMITER $$
+
+CREATE PROCEDURE Procedure9()
+BEGIN
+ SELECT * FROM table_book
+ JOIN table_category ON table_book.category = table_category.id
+ WHERE table_book.category = (SELECT id FROM table_category WHERE category = 'C&C++');
+END $$
+DELIMITER ;
+
+CALL Procedure9;
+
+10.
+DELIMITER $$
+
+CREATE PROCEDURE Procedure10()
+BEGIN
+ SELECT table_publisher.publisher, pages FROM table_book
+ JOIN table_publisher ON table_book.publisher = table_publisher.id
+ WHERE pages > 400;
+END $$
+DELIMITER ;
+
+CALL Procedure10;
+
+11.
+DELIMITER $$
+
+CREATE PROCEDURE Procedure11()
+BEGIN
+ SELECT category
+ FROM table_category
+ WHERE (SELECT COUNT(table_book.category) FROM table_book WHERE table_book.category = table_category.id) >= 3;
+END $$
+DELIMITER ;
+
+CALL Procedure11;
+
+12.
+DELIMITER $$
+
+CREATE PROCEDURE Procedure12()
+BEGIN
+ SELECT title 
+ FROM table_book
+ WHERE EXISTS (SELECT publisher FROM table_publisher WHERE table_publisher.publisher LIKE 'BHV%' AND table_book.publisher = table_publisher.id);
+END $$
+DELIMITER ;
+
+CALL Procedure12;
+
+13.
+DELIMITER $$
+
+CREATE PROCEDURE Procedure13()
+BEGIN
+ SELECT title 
+ FROM table_book
+ WHERE NOT EXISTS (SELECT publisher FROM table_publisher WHERE table_publisher.publisher LIKE 'BHV%' AND table_book.publisher = table_publisher.id);
+END $$
+DELIMITER ;
+
+CALL Procedure13;
+
+14.
+DELIMITER $$
+
+CREATE PROCEDURE Procedure14()
+BEGIN
+ SELECT table_theme.theme as name
+ FROM table_theme
+ UNION
+ SELECT table_category.category as name
+ FROM table_category
+ ORDER BY name;
+END $$
+DELIMITER ;
+
+CALL Procedure14;
+
+15. 
+DELIMITER $$
+
+CREATE PROCEDURE Procedure15_1()
+BEGIN
+ SELECT DISTINCT name FROM 
+ (
+    (SELECT SUBSTRING_INDEX(title, ' ', 1) as name  FROM table_book)
+ UNION
+    (SELECT SUBSTRING_INDEX(category, ' ', 1) as name from table_category)
+ ) as names ORDER BY name DESC;
+END $$
+DELIMITER ;
+
+CALL Procedure15_1;
