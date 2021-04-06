@@ -1,0 +1,102 @@
+1. SELECT title, price, table_publisher.publisher as publisher FROM table_book, table_publisher WHERE table_book.publisher = table_publisher.id
+
+2. SELECT title, table_category.category as category FROM table_book INNER JOIN table_category ON table_book.category = table_category.id
+
+3. SELECT title, price, table_publisher.publisher as publisher, table_format.format as format FROM table_book JOIN table_publisher ON table_book.publisher = table_publisher.id INNER JOIN table_format ON table_book.format = table_format.id
+
+4. SELECT table_theme.theme as theme, table_category.category as category, title, table_publisher.publisher as publisher FROM table_book JOIN table_publisher ON table_book.publisher = table_publisher.id JOIN table_category ON table_book.category = table_category.id JOIN table_theme on table_book.theme = table_theme.id
+
+5. SELECT title, publishdate, table_publisher.publisher as publisher FROM table_book JOIN table_publisher ON table_book.publisher = table_publisher.id WHERE year(publishdate) >= 2000 AND table_publisher.publisher LIKE 'BHV%'
+
+6. SELECT sum(pages), table_category.category as category
+FROM table_book
+JOIN table_category on table_book.category = table_category.id 
+GROUP BY table_category.category
+ORDER BY sum(pages) DESC
+
+7. SELECT AVG(price), table_category.category, table_theme.theme
+FROM table_book
+JOIN table_theme ON table_book.theme = table_theme.id
+JOIN table_category ON table_book.category = table_category.id
+WHERE table_theme.theme LIKE 'Використання ПК%' AND table_category.category = 'Linux'
+
+8. SELECT table_novelty.novelty as novelty, code, title, price, table_publisher.publisher as publisher, pages, table_format.format as format, publishdate, circulation, table_theme.theme as theme, table_category.category as category
+FROM table_book, table_theme, table_publisher, table_novelty, table_format, table_category
+WHERE table_book.novelty = table_novelty.id AND 
+table_book.theme = table_theme.id AND
+table_book.publisher = table_publisher.id AND
+table_book.format = table_format.id AND
+table_book.category = table_category.id
+
+9. SELECT table_novelty.novelty as novelty, code, title, price, table_publisher.publisher as publisher, pages, table_format.format as format, publishdate, circulation, table_theme.theme as theme, table_category.category as category
+FROM table_book
+JOIN table_theme ON table_book.theme = table_theme.id
+JOIN table_category ON table_book.category = table_category.id
+JOIN table_publisher ON table_book.publisher = table_publisher.id
+JOIN table_novelty ON table_book.novelty = table_novelty.id
+JOIN table_format ON table_book.format = table_format.id
+
+10. SELECT table_novelty.novelty as novelty, code, title, price, table_publisher.publisher as publisher, pages, table_format.format as format, publishdate, circulation, table_theme.theme as theme, table_category.category as category
+FROM table_book
+LEFT JOIN table_theme ON table_book.theme = table_theme.id
+LEFT JOIN table_category ON table_book.category = table_category.id
+LEFT JOIN table_publisher ON table_book.publisher = table_publisher.id
+LEFT JOIN table_novelty ON table_book.novelty = table_novelty.id
+LEFT JOIN table_format ON table_book.format = table_format.id
+
+SELECT table_novelty.novelty as novelty, code, title, price, table_publisher.publisher as publisher, pages, table_format.format as format, publishdate, circulation, table_theme.theme as theme, table_category.category as category
+FROM table_book
+RIGHT JOIN table_theme ON table_book.theme = table_theme.id
+RIGHT JOIN table_category ON table_book.category = table_category.id
+RIGHT JOIN table_publisher ON table_book.publisher = table_publisher.id
+RIGHT JOIN table_novelty ON table_book.novelty = table_novelty.id
+RIGHT JOIN table_format ON table_book.format = table_format.id
+
+11. SELECT b1.title as title1, b1.pages as pages1, b2.title as title2, b2.pages as pages2
+FROM table_book b1
+JOIN table_book b2
+WHERE b1.pages = b2.pages AND b1.id < b2.id
+
+12. SELECT b1.code as code1, b1.price as price1, b1.title as title1, b2.code as code2, b2.price as price2, b2.title as title2, b3.code as code3, b3.price as price3, b3.title as title3   FROM table_book b1
+JOIN table_book b2
+JOIN table_book b3
+WHERE b1.price = b2.price AND b2.price = b3.price AND b1.id < b2.id AND b2.id < b3.id
+
+13. SELECT * FROM table_book
+JOIN table_category ON table_book.category = table_category.id
+WHERE table_book.category = (SELECT id FROM table_category WHERE category = 'C&C++')
+
+14. SELECT * FROM table_book
+JOIN table_publisher ON table_book.publisher = table_publisher.id
+WHERE table_book.publisher = (SELECT id FROM table_publisher WHERE publisher LIKE 'BHV%') AND year(table_book.publishdate) >= 2000
+
+15. SELECT table_publisher.publisher, pages FROM table_book
+JOIN table_publisher ON table_book.publisher = table_publisher.id
+WHERE pages > 400
+
+16. SELECT *
+FROM table_category
+WHERE (SELECT COUNT(table_book.category) FROM table_book WHERE table_book.category = table_category.id) >= 3
+
+17. SELECT title 
+FROM table_book
+WHERE EXISTS (SELECT publisher FROM table_publisher WHERE table_publisher.publisher LIKE 'BHV%' AND table_book.publisher = table_publisher.id)
+
+18. SELECT title, publisher
+FROM table_book
+WHERE NOT EXISTS (SELECT publisher FROM table_publisher WHERE table_publisher.publisher LIKE 'BHV%' AND table_book.publisher = table_publisher.id)
+
+19. SELECT table_theme.theme as name
+FROM table_theme
+UNION
+SELECT table_category.category as name
+FROM table_category
+ORDER BY name
+
+20. 
+SELECT DISTINCT name FROM 
+(
+    (SELECT SUBSTRING_INDEX(title, ' ', 1) as name  FROM table_book)
+UNION
+    (SELECT SUBSTRING_INDEX(category, ' ', 1) as name from table_category)
+) as names ORDER BY name DESC
