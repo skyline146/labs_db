@@ -1,0 +1,290 @@
+2. 
+a.
+CREATE TABLE table_theme( id INT(20) NOT NULL AUTO_INCREMENT, theme VARCHAR(50), PRIMARY KEY (id) )
+
+CREATE TABLE table_novelty( id INT(20) NOT NULL AUTO_INCREMENT, novelty TINYINT(1), PRIMARY KEY (id) )
+
+CREATE TABLE table_category( id INT(20) NOT NULL AUTO_INCREMENT, category VARCHAR(50), PRIMARY KEY (id) )
+
+CREATE TABLE table_publisher( id INT(20) NOT NULL AUTO_INCREMENT, publisher VARCHAR(50), PRIMARY KEY (id) )
+
+CREATE TABLE table_format( id INT(20) NOT NULL AUTO_INCREMENT, format VARCHAR(20), PRIMARY KEY (id) )
+
+CREATE TABLE table_book
+(
+    id INT(20) NOT NULL AUTO_INCREMENT,
+    novelty INT(20) REFERENCES table_novelty(id),
+    code INT(20) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    price INT(20),
+    publisher INT(20) REFERENCES table_publisher(id),
+    pages INT(20),
+    format INT(20) REFERENCES table_format(id),
+    publishdate DATE,
+    circulation INT(20) DEFAULT 5000,
+    theme INT(20) REFERENCES table_theme(id),
+    category INT(20) REFERENCES table_category(id),
+    PRIMARY KEY (id)
+)
+
+b. 
+INSERT INTO table_format(format) VALUES ('70x100/16'), ('84x108/16'), ('60x88/16');
+
+INSERT INTO table_publisher(publisher) VALUES 
+  ('BHV С.-Петербург'),
+  ('Вильямс'),
+  ('Питер'),
+  ('МикроАрт'),
+  ('DiaSoft'),
+  ('ДМК'),
+  ('Триумф'),
+  ('Эком'),
+  ('Русская редакция');
+
+INSERT INTO table_category(category) VALUES 
+  ('Підручники'),
+  ('Апаратні засоби ПК'),
+  ('Захист і безпека ПК'),
+  ('Інші книги'),
+  ('Windows 2000'),
+  ('Linux'),
+  ('Unix'),
+  ('Інші операційні системи'),
+  ('C&C++');
+
+
+INSERT INTO table_theme(theme) VALUES 
+  ('Використання ПК в цілому'),
+  ('Операційні системи'),
+  ('Програмування');
+
+
+INSERT INTO table_book(
+  code,
+  novelty,
+  title,
+  price,
+  publisher,
+  pages,
+  format,
+  publishdate,
+  circulation,
+  theme,
+  category 
+) VALUES ( 
+  511,
+  0,
+  'Аппаратные средства мультимедия. Видеосистема РС 20',
+  15.51,
+  1,
+  400,
+  1,
+  DATE('2000-07-24'),
+  5000,
+  1,
+  1
+), (
+  4985,
+  1,
+  'Освой самостоятельно модернизацию и ремонт ПК за 24 часа, 2-е изд.',
+  18.95,
+  2,
+  288,
+  1,
+  DATE('2000-07-07'),
+  5000,
+  1,
+  1
+), (
+  5141,
+  1,
+  'Структуры данных и алгоритмы.',
+  37.80,
+  2,
+  384,
+  1,
+  '2000-09-29',
+  5000,
+  1,
+  1
+), (
+  5127,
+  2,
+  'Автоматизация инженерно- графических работ',
+  11.58,
+  3,
+  256,
+  1,
+  DATE('2000-06-15'),
+  5000,
+  1,
+  1
+), (
+  5110,
+  1,
+  'Аппаратные средства мультимедия. Видеосистема РС',
+  15.51,
+  4,
+  400,
+  1,
+  DATE('2000-07-24'),
+  5000,
+  1,
+  2
+), (
+  5199,
+  1,
+  'Железо IBM 2001.',
+  30.07,
+  4,
+  368,
+  1,
+  DATE('2000-02-12'),
+  5000,
+  1,
+  2
+), (
+  3851,
+  2,
+  'Защита информации и безопасность компьютерных систем',
+  26.00,
+  5,
+  480,
+  2,
+  DATE('1999-04-02'),
+  5000,
+  1,
+  3
+), (
+  3932,
+  1,
+  'Как превратить персональный компьютер в измерительный комплекс',
+  7.65,
+  6,
+  144,
+  3,
+  DATE('1999-06-09'),
+  5000,
+  1,
+  4
+), (
+  4713,
+  1,
+  'Plug- ins. Встраиваемые приложения для музыкальных программ',
+  11.41,
+  6,
+  144,
+  1,
+  DATE('2000-02-22'),
+  5000,
+  1,
+  4
+), (
+  5217,
+  1,
+  'Windows МЕ. Новейшие версии программ',
+  16.57,
+  7,
+  320,
+  1,
+  DATE('2000-08-25'),
+  5000,
+  2,
+  5
+), (
+  4829,
+  1,
+  'Windows 2000 Professional шаг за шагом с СD',
+  27.25,
+  8,
+  320,
+  1,
+  DATE('2000-04-28'),
+  5000,
+  2,
+  5
+), (
+  5170,
+  1,
+  'Linux Русские версии',
+  24.43,
+  6,
+  346,
+  1,
+  DATE('2000-09-29'),
+  5000,
+  2,
+  6
+), (
+  860,
+  1,
+  'Операционная система UNIX',
+  3.50,
+  1,
+  395,
+  2,
+  DATE('1997-05-05'),
+  5000,
+  2,
+  7
+), (
+  44,
+  1,
+  'Ответы на актуальные вопросы по OS/2 Warp',
+  5.0,
+  5,
+  352,
+  3,
+  DATE('1996-03-20'),
+  5000,
+  2,
+  8
+), (
+  5176,
+  1,
+  'Windows Ме. Спутник пользователя',
+  12.79,
+  9,
+  306,
+  NULL,
+  DATE('2000-10-10'),
+  5000,
+  2,
+  8
+), (
+  5462,
+  1,
+  'Язык программирования С++. Лекции и упражнения',
+  29.0,
+  5,
+  656,
+  2,
+  DATE('2000-12-12'),
+  5000,
+  3,
+  9
+), (
+  4982,
+  1,
+  'Язык программирования С. Лекции и упражнения',
+  29.00,
+  5,
+  656,
+  2,
+  DATE('2000-07-12'),
+  5000,
+  3,
+  9
+), (
+  4687,
+  1,
+  'Эффективное использование C++ .50 рекомендаций по улучшению ваших программ и проектов',
+  17.60,
+  6,
+  240,
+  1,
+  DATE('2000-02-03'),
+  5000,
+  3,
+  9
+);
