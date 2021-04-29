@@ -1,0 +1,145 @@
+1. 
+
+DELIMITER $$
+
+CREATE TRIGGER trigger_1 BEFORE INSERT ON table_theme
+FOR EACH ROW
+IF (SELECT COUNT(*) FROM table_theme) > 10
+THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Кількість більша 10';
+ELSEIF (SELECT COUNT(*) from table_theme) < 5
+THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Кількість менша за 5';
+END IF $$
+
+DELIMITER ;
+
+INSERT INTO table_theme(theme) VALUE('example');
+
+2.
+
+DELIMITER $$
+
+CREATE TRIGGER trigger_2 BEFORE INSERT ON table_book
+FOR EACH ROW
+IF (YEAR(NEW.publishdate) != YEAR(NOW()) AND NEW.novelty = 2)
+THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Новинкою може бути тільки книга видана в поточному році.';
+END IF $$
+
+DELIMITER ;
+
+3.
+
+DELIMITER $$
+
+CREATE TRIGGER trigger_3 BEFORE INSERT ON table_book
+FOR EACH ROW
+IF ((NEW.pages < 100 AND NEW.price > 10) OR (NEW.pages < 200 AND NEW.price > 20) OR (NEW.pages < 300 AND NEW.price > 30))
+THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Неможлива ціна книги при даній кількості сторінок.';
+END IF $$
+
+DELIMITER ;
+
+4. 
+
+DELIMITER $$
+
+CREATE TRIGGER trigger_4 BEFORE INSERT ON table_book
+FOR EACH ROW
+IF ((NEW.publisher = 1 AND NEW.circulation < 5000) OR (NEW.publisher = 5 AND NEW.circulation < 10000))
+THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Помилка сумісності видання та кількості сторінок.';
+END IF $$
+
+DELIMITER ;
+
+5.
+
+DELIMITER $$
+
+CREATE TRIGGER trigger_5 BEFORE INSERT ON table_book
+FOR EACH ROW
+IF (code_book = NEW.code_book)
+THEN
+	IF (novelty != NEW.novelty OR title != NEW.title OR price != NEW.price OR publisher != NEW.publisher OR pages != NEW.pages OR
+        format != NEW.format OR publishdate != NEW.publishdate OR circulation != NEW.circulation OR theme != NEW.theme OR category != NEW.category)
+    THEN
+    	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Книги з однаковими кодами повинні містити однакові дані.';
+    END IF;
+END IF $$
+
+DELIMITER ;
+
+6.
+
+DELIMITER $$
+
+CREATE TRIGGER trigger_6 BEFORE INSERT ON table_book
+FOR EACH ROW
+IF (SUBSTRING_INDEX(CURRENT_USER(), '@', 1) != 'root')
+THEN
+	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Лише користувачу dbo дозволено видаляти.';
+ELSE
+	
+END IF $$
+
+DELIMITER ;
+
+7. 
+
+DELIMITER $$
+
+CREATE TRIGGER trigger_7 BEFORE UPDATE ON table_book
+FOR EACH ROW
+IF (SUBSTRING_INDEX(CURRENT_USER(), '@', 1) = 'root')
+THEN
+	IF (OLD.price != NEW.price)
+    THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Користувачу dbo не дозволяється змінювати ціну книги.';
+    END IF;
+END IF $$
+
+DELIMITER ;
+
+8.
+
+DELIMITER $$
+
+CREATE TRIGGER trigger_8 BEFORE INSERT ON table_book
+FOR EACH ROW
+IF (NEW.publisher = 6 OR NEW.publisher = 8)
+THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Дане видавництво не видає підручники.';
+END IF $$
+
+DELIMITER ;
+
+9.
+
+DELIMITER $$
+
+CREATE TRIGGER trigger_9 BEFORE INSERT ON table_book
+FOR EACH ROW
+IF (
+    (SELECT COUNT(*) FROM (SELECT COUNT(*) as count_books FROM table_book WHERE YEAR(publishdate) = YEAR(NOW()) AND novelty = 2 GROUP BY publisher) WHERE count_books > 10) > 1
+)
+THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Видавництво не може випустити більше 10 новинок протягом 1 поточного року';
+END IF $$
+
+DELIMITER ;
+
+10.
+
+DELIMITER $$
+
+CREATE TRIGGER trigger_10 BEFORE INSERT ON table_book
+FOR EACH ROW
+IF (NEW.publisher = 1 AND NEW.format = 3)
+THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Дане видавництво не видає підручники такого формату.';
+END IF $$
+
+DELIMITER ;
