@@ -1,0 +1,105 @@
+1.
+
+DELIMITER $$
+
+CREATE FUNCTION sum_price (user_year INT)
+RETURNS DOUBLE
+BEGIN
+RETURN (
+	SELECT SUM(table_book.price) FROM table_book
+	WHERE year(table_book.publishdate)=user_year );
+END $$
+
+DELIMITER ;
+
+SELECT sum_price(2000)
+
+///////////////////////////
+
+CREATE FUNCTION Func_Sum(@user_year INT)
+RETURNS FLOAT AS
+BEGIN
+	DECLARE @sum FLOAT;
+
+	SELECT @sum = SUM(price) FROM lab_database.table_book
+	WHERE YEAR(publishdate) = @user_year
+
+	RETURN @sum
+END
+
+SELECT dbo.Func_Sum(2000)
+
+2.
+
+CREATE FUNCTION Function2(@user_year INT)
+RETURNS TABLE AS
+RETURN(
+	SELECT * FROM lab_database.table_book
+	WHERE YEAR(publishdate) = @user_year);
+
+3. 
+
+
+CREATE FUNCTION UserPublishers (@user_publishers VARCHAR(255))
+RETURNS TABLE AS
+RETURN (
+	SELECT value FROM STRING_SPLIT(@user_publishers, ';')
+	)
+
+SELECT * FROM dbo.UserPublishers('BHV;Diasoft;Publ1;Publ2')
+4.
+
+DECLARE @title_book VARCHAR(255),
+	@publish_date DATE;
+
+DECLARE @cursor_book CURSOR
+
+SET @cursor_book = CURSOR SCROLL FOR
+	SELECT title, publishdate 
+	FROM lab_database.table_book
+
+OPEN @cursor_book
+
+FETCH NEXT FROM @cursor_book INTO @title_book, @publish_date
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	PRINT @title_book + ' ---- ' + CONVERT(VARCHAR(50), @publish_date)
+
+	FETCH NEXT FROM @cursor_book INTO @title_book, @publish_date
+END
+
+CLOSE @cursor_book
+DEALLOCATE @cursor_book
+
+5.
+
+DECLARE @title_book VARCHAR(255),
+	@publish_date DATE,
+	@user_year INT;
+
+SET @user_year = 2000;
+
+DECLARE @cursor_book CURSOR
+
+SET @cursor_book = CURSOR SCROLL FOR
+	SELECT title, publishdate 
+	FROM lab_database.table_book
+	WHERE YEAR(publishdate) = @user_year
+
+OPEN @cursor_book
+
+FETCH NEXT FROM @cursor_book INTO @title_book, @publish_date
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	PRINT @title_book + ' ---- ' + CONVERT(VARCHAR(50), @publish_date)
+
+	FETCH NEXT FROM @cursor_book INTO @title_book, @publish_date
+END
+
+CLOSE @cursor_book
+DEALLOCATE @cursor_book
+
+
+
